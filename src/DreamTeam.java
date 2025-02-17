@@ -8,7 +8,7 @@ public class DreamTeam implements Interactuador{
 
         //menú
         do {
-            System.out.println("");
+            System.out.println("DREAM TEAM");
             System.out.println("");
             System.out.println("");
             System.out.println("");
