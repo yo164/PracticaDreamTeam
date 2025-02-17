@@ -97,4 +97,20 @@ public interface Interactuador {
         System.out.println("")
      }
 
+     public static void bajaSocio() {
+
+     }
+
+     public static int solicitarEleccion(int OPCION_MAX){
+        int eleccion = 0;
+        try{
+            System.out.println("Introduzca una opción válida");
+            eleccion = Integer.parseInt(sc.nextLine());
+            if(OPCION_MAX < 0 ||)
+        } catch(Exception e) {
+            System.out.println("Opción Inválida");
+        }
+                return eleccion;
+     }
+
 }
