@@ -19,7 +19,7 @@ public class GestorSocios implements CRUD<Socio>{
             this.conn = conn;
         }
     
-        @Override
+        
         public ArrayList<Socio> query(String column, String value) throws SQLException {
             List<String> validColumns = Arrays.asList("nombre", "localidad");
             if (!validColumns.contains(column)) throw new SQLException("Columna no válida");
@@ -50,7 +50,37 @@ public class GestorSocios implements CRUD<Socio>{
         
         }
     
-    
+        @Override
+        public ArrayList<Socio> query(String column, int value) throws SQLException {
+            List<String> validColumns = Arrays.asList("nombre", "localidad");
+            if(!validColumns.contains(column))
+                throw new SQLException("Columna no válida");
+
+                ArrayList<Socio> result = new ArrayList<Socio>();
+                String sqlQuery = "SELECT * FROM socio WHERE " + column + " = ?";
+
+                try (PreparedStatement stmt = this.conn.prepareStatement(sqlQuery)) {
+                    stmt.setInt(1, value);
+                    ResultSet querySet = stmt.executeQuery();
+
+                    while (querySet.next()) {
+                        int socioID = querySet.getInt("socioID");
+                        String nombre = querySet.getString("nombre");
+                        int estatura = querySet.getInt("estatura");
+                        int edad = querySet.getInt("edad");
+                        String localidad = querySet.getString("localidad");
+                        result.add(new Socio(socioID, nombre, estatura, edad, localidad));
+
+                    }
+                    return result;
+                } catch (SQLException e) {
+                    throw e;
+                }
+            
+                        
+                        
+        }
+
     
         @Override
         public ArrayList<Socio> requestAll(String sortedBy) throws SQLException {
@@ -83,7 +113,8 @@ public class GestorSocios implements CRUD<Socio>{
             Socio socio = null;
             String sqlQuery = "SELECT * FROM socio WHERE socioID = ?";
             
-            try (Statement stmt = this.conn.createStatement()){
+            try (PreparedStatement stmt = this.conn.prepareStatement(sqlQuery)){
+                stmt.setInt(1,id);
                 ResultSet querySet = stmt.executeQuery(sqlQuery);
                 int socioID = querySet.getInt("socioID");
                 String nombre = querySet.getString("nombre");
@@ -91,12 +122,12 @@ public class GestorSocios implements CRUD<Socio>{
                 int edad = querySet.getInt("edad");
                 String localidad = querySet.getString("localidad");
                 socio = new Socio(socioID, nombre, estatura, edad, localidad);
-//return socio
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-      //return socio          
-            }
             return socio;
+            } catch (Exception e) {
+                throw e;
+            
+            }
+            
 
                         
         }
@@ -119,10 +150,10 @@ public class GestorSocios implements CRUD<Socio>{
     
                 //EJECUCIÓN DE LA CONSULTA
                 int affectedRows = stmt.executeUpdate();
-                if (affectedRows == 0) throw new SQLException("Falló la creación del nuevo socio.");{
+                if (affectedRows == 0) throw new SQLException("Falló la creación del nuevo socio.");
     
                     return affectedRows ==1;
-                }
+                
             } catch (SQLException e) {
                 throw e;
             }
@@ -147,45 +178,33 @@ public class GestorSocios implements CRUD<Socio>{
                 //Ejecución de la consulta
                 int affectedRows = stmt.executeUpdate();
                 if( affectedRows == 0 ) throw new SQLException("Fallo la actualización del Socio.");
-                
+                return affectedRows == 1;
             } catch (Exception e) {
-                // TODO: handle exception
+                throw e;
             }
-                    return false;
+                    
     
         }
     //BORRAR UN SOCIO
         @Override
         public boolean delete(int id) throws SQLException {
-            
-            int socioID =   socio.getSocioID();
-
-        String sqlQuery = ("DELETE FROM socio WHERE socioID = ?");
-         try (PreparedStatement stmt = this.conn.prepareStatement(sqlQuery)) {
-        int affectedRows = stmt.executeUpdate();
-        if(affectedRows == 0) throw new SQLException("Fallo la eliminacion del Socio");  
-            return true;
-         } catch (Exception e) {
-           System.out.println(e.getMessage());
-           return false;
-         }
-
-
-
-    }
-
-        @Override
-        public ArrayList<Socio> query(String column, int value) throws SQLException {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'query'");
+            int socioID = socio.getSocioID();
+            String sqlDelete = "DELETE FROM socio WHERE socioID = ?";
+            try (PreparedStatement stmt = this.conn.prepareStatement(sqlDelete)) {
+                stmt.setInt(1, socioID);
+                int affect = stmt.executeUpdate();
+                if (affect == 0) {
+                    throw new SQLException();
+                }
+                return affect == 1;
+            } catch (Exception e) {
+                throw e;
+            }
+    
         }
 
 
-     
-
-
- 
-   
+        
     
 
 }

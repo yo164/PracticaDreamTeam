@@ -19,6 +19,14 @@ public class Socio {
         this.localidad = localidad;
     }
 
+    public Socio(Socio miSocio) {
+        this.socioID = miSocio.socioID;
+        this.nombre = miSocio.nombre;
+        this.estatura = miSocio.estatura;
+        this.edad = miSocio.edad;
+        this.localidad = miSocio.localidad;
+    }
+
     public int getSocioID() {
         return socioID;
     }
