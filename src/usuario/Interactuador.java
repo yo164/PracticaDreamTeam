@@ -1,5 +1,6 @@
 package usuario;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -85,7 +86,7 @@ public interface Interactuador {
 
     }
     
-    public static void consultarPorID() {
+    public static void consultarPorID() throws SQLException {
         System.out.print("\nEscriba el ID del socio: ");
         int id = Integer.parseInt(sc.nextLine());
         Socio socio = miGestor.requestById(id);
@@ -94,7 +95,26 @@ public interface Interactuador {
 
     }
      public static void altaSocio(){
-        System.out.println("")
+        
+        try {
+        System.out.println("Introduzca el nombre del Socio:");
+        String nombre = sc.nextLine();
+        System.out.println("Introduzca la estatura del Socio:");
+        int estatura = Integer.parseInt(sc.nextLine());
+        System.out.println("Introduzca la edad del Socio:");
+        int edad = Integer.parseInt(sc.nextLine());
+        System.out.println("Introduzca la localidad del Socio:");
+        String locadliad = sc.nextLine();
+        System.out.println("Introduzca la ID del nuevo Socio");
+        int socioID = Integer.parseInt(locadliad);
+        Socio socio = new Socio(socioID, nombre, estatura, edad, locadliad);
+        socio.create(socio);
+        System.out.println("El socio ha sido dado de Alta");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
      }
 
      public static void bajaSocio() {

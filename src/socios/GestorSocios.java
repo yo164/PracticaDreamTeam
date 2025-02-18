@@ -20,7 +20,7 @@ public class GestorSocios implements CRUD<Socio>{
         }
     
         @Override
-        public ArrayList query(String column, String value) throws SQLException {
+        public ArrayList<Socio> query(String column, String value) throws SQLException {
             List<String> validColumns = Arrays.asList("nombre", "localidad");
             if (!validColumns.contains(column)) throw new SQLException("Columna no válida");
             
@@ -119,7 +119,7 @@ public class GestorSocios implements CRUD<Socio>{
     
                 //EJECUCIÓN DE LA CONSULTA
                 int affectedRows = stmt.executeUpdate();
-                if (affectedRows == 0) throw new SQLException("Falló la creación del nuevo socio."){
+                if (affectedRows == 0) throw new SQLException("Falló la creación del nuevo socio.");{
     
                     return affectedRows ==1;
                 }
@@ -173,6 +173,16 @@ public class GestorSocios implements CRUD<Socio>{
 
 
     }
+
+        @Override
+        public ArrayList<Socio> query(String column, int value) throws SQLException {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'query'");
+        }
+
+
+     
+
 
  
    
