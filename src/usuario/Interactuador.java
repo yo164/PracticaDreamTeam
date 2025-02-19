@@ -90,7 +90,10 @@ public interface Interactuador {
         System.out.print("\nEscriba el ID del socio: ");
         int id = Integer.parseInt(sc.nextLine());
         Socio socio = miGestor.requestById(id);
-
+        //comprobar que el socio existe
+        //si no existe lanzar mensaje de error
+        //si existe meter en un try catch para el throw de sql
+        if()
 
 
     }
