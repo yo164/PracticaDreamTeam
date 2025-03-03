@@ -89,11 +89,13 @@ public interface Interactuador {
     public static void consultarPorID() throws SQLException {
         System.out.print("\nEscriba el ID del socio: ");
         int id = Integer.parseInt(sc.nextLine());
-        Socio socio = miGestor.requestById(id);
-        //comprobar que el socio existe
-        //si no existe lanzar mensaje de error
-        //si existe meter en un try catch para el throw de sql
-        if()
+        try {
+            System.out.println(miGestor.requestById(id));
+            
+        } catch (Exception e) {
+            System.out.println("Error"+ e.getMessage());
+        }
+        
 
 
     }
@@ -120,20 +122,63 @@ public interface Interactuador {
         
      }
 
-     public static void bajaSocio() {
+     public static void bajaSocio() throws SQLException {
+        try {
+            System.out.println("Introduce la Id del Socio.");
+            System.out.print(">> ");
+            int id = solicitarid(Integer.parseInt(sc.nextLine()));
+            miGestor.delete(id);
+            System.out.println("El Socio ha sido Eliminado");
+            sc.close();
+        } catch (Exception e) {
+            System.err.println("Ha ocurrido un error");
+        }
 
      }
 
-     public static int solicitarEleccion(int OPCION_MAX){
-        int eleccion = 0;
+     public static void modificaSocio(){
+        try {
+            System.out.println("Introduzca el id del socio que desea modificar");
+            System.out.print(">> ");
+            int id = 0;
+             Interactuador.solicitarid(id);
+            System.out.println("Introduzca el nombre del Socio a modificar");
+            System.out.print(">> ");
+            String nombre = sc.nextLine();
+            System.out.println("Introduzca la estatura del socio");
+            System.out.print(">> ");
+            int estatura = 0;
+            Interactuador.solicitarid(estatura);
+            System.out.println("Introduzca la edad del Socio");
+            System.out.print(">> ");
+            int edad = solicitarid(Integer.parseInt(sc.nextLine()));
+            
+            System.out.println("Introduzca la localidad del Socio");
+            System.out.print(">> ");
+            String localidad = sc.nextLine();
+
+            Socio socio = new Socio(id, nombre, estatura, edad, localidad);
+            miGestor.update(socio);
+        } catch (Exception e) {
+            System.err.println("Ha ocurrido un eror");
+        }
+     }
+
+
+    
+     public static int solicitarid(int id){
+    
         try{
             System.out.println("Introduzca una opción válida");
-            eleccion = Integer.parseInt(sc.nextLine());
-            if(OPCION_MAX < 0 ||)
+            id = Integer.parseInt(sc.nextLine());
+            sc.close();
+            if(id < 0){
+                System.out.println("Opción no Válida");
+            }
         } catch(Exception e) {
             System.out.println("Opción Inválida");
         }
-                return eleccion;
+            return id;
      }
 
 }

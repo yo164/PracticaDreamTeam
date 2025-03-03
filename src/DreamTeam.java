@@ -1,10 +1,12 @@
+import java.sql.SQLException;
+
 import pool.ConnectionPool;
 import socios.GestorSocios;
 import socios.Socio;
 import usuario.Interactuador;
 
-public class DreamTeam {
-    public static void main(String[] args) {
+public class DreamTeam implements Interactuador {
+    public static void main(String[] args) throws SQLException {
         final String URL = "\"jdbc:mariadb://localhost:3306/baloncesto\"";
         final String USUARIO = "root";
         final String CLAVE = "";
@@ -31,19 +33,29 @@ public class DreamTeam {
 
             switch (elección) {
                 case 1:
+                
                     DreamTeam.altaSocio();
+                    Interactuador.altaSocio();
                     break;
                 case 2:
+                    Interactuador.bajaSocio();
                     DreamTeam.bajaSocio();
                     break;
                 case 3:
+                    Interactuador.modificaSocio();
                     DreamTeam.modificarSocio();
                     break;
                 case 4:
+                    System.out.println("Desea ver todos los socios ");
+                    System.out.print(">> ");
+                    String campo = System.console().readLine();
                     DreamTeam.mostrarSocios();
+                    Interactuador.consultaFiltrada();
+                    Interactuador.consultaOrdenada();
                     break;
                 case 5:
-                    DreamTeam.mostrarUnSocio();
+                    Interactuador.consultarPorID();
+                    
                     break;
                 case 6:
                     System.out.println("Saliendo...");
